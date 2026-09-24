@@ -406,6 +406,14 @@
                     <a href="{{ route('booking.create') }}" class="btn btn-brass btn-sm" target="_blank">
                         + Booking Baru
                     </a>
+
+                    <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-outline btn-sm" title="Keluar / Logout" style="border-color: rgba(239,68,68,0.3); color: #EF4444; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.8rem; cursor: pointer;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                            <span>Keluar</span>
+                        </button>
+                    </form>
                 </div>
             </header>
 
