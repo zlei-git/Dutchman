@@ -36,8 +36,16 @@ putenv('APP_CONFIG_CACHE=/tmp/bootstrap/cache/config.php');
 putenv('APP_ROUTES_CACHE=/tmp/bootstrap/cache/routes.php');
 putenv('APP_EVENTS_CACHE=/tmp/bootstrap/cache/events.php');
 
-// 3. Handle SQLite Database in /tmp if external DB is not provided
-$dbConnection = getenv('DB_CONNECTION') ?: ($_ENV['DB_CONNECTION'] ?? 'sqlite');
+// 3. Handle Database: If external DB (e.g. Supabase) is provided, use it. Otherwise fallback to bundled SQLite.
+$dbConnection = getenv('DB_CONNECTION') ?: ($_ENV['DB_CONNECTION'] ?? '');
+$dbHost = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? '');
+
+if (empty($dbConnection) || $dbConnection === 'sqlite' || empty($dbHost) || $dbHost === '127.0.0.1' || $dbHost === 'localhost') {
+    $dbConnection = 'sqlite';
+    putenv('DB_CONNECTION=sqlite');
+    $_ENV['DB_CONNECTION'] = 'sqlite';
+    $_SERVER['DB_CONNECTION'] = 'sqlite';
+}
 
 if ($dbConnection === 'sqlite') {
     $bundledDb = __DIR__ . '/../database/database.sqlite';
