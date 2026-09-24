@@ -16,6 +16,12 @@ foreach ($dirs as $dir) {
 }
 
 // 2. Set environment paths to /tmp so Laravel doesn't write to read-only root
+if (!getenv('APP_KEY') && empty($_ENV['APP_KEY'])) {
+    putenv('APP_KEY=base64:jDNJYv8p6Ed1NjNNT9P/mSaIjuFxwwdTC6n5fs32jiA=');
+    $_ENV['APP_KEY'] = 'base64:jDNJYv8p6Ed1NjNNT9P/mSaIjuFxwwdTC6n5fs32jiA=';
+    $_SERVER['APP_KEY'] = 'base64:jDNJYv8p6Ed1NjNNT9P/mSaIjuFxwwdTC6n5fs32jiA=';
+}
+
 putenv('APP_STORAGE=/tmp/storage');
 $_ENV['APP_STORAGE'] = '/tmp/storage';
 $_SERVER['APP_STORAGE'] = '/tmp/storage';

@@ -1,7 +1,5 @@
 -- Dutchman Barbershop PostgreSQL Schema & Data for Supabase
--- Generated automatically from Dutchman MySQL database
-
-SET session_replication_role = 'replica';
+-- Compatible with Supabase cloud (no superuser privileges required)
 
 -- -----------------------------------------------------
 -- Table: users
@@ -199,6 +197,59 @@ INSERT INTO "barbers" ("id", "name", "chair_code", "is_maintenance", "slug", "sp
   (4, 'Marcus', 'A4', FALSE, 'marcus', 'Modern Crop & Hair Design', 6, 'Blends contemporary street styling with disciplined European barbering craft and hair flow aesthetics.', 'images/barbershop/barber-marcus.jpg', TRUE, 4, '2026-09-23 06:23:31', '2026-09-23 14:14:55');
 
 -- -----------------------------------------------------
+-- Table: addons
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS "addons" CASCADE;
+CREATE TABLE "addons" (
+  "id" BIGSERIAL,
+  "name" varchar(255) NOT NULL,
+  "category" varchar(50) DEFAULT 'drink',
+  "price" decimal(10,2) DEFAULT 0.00,
+  "description" TEXT,
+  "photo" varchar(255),
+  "is_active" BOOLEAN DEFAULT TRUE,
+  "sort_order" INTEGER DEFAULT 0,
+  "created_at" TIMESTAMP WITHOUT TIME ZONE,
+  "updated_at" TIMESTAMP WITHOUT TIME ZONE,
+  PRIMARY KEY ("id")
+);
+
+INSERT INTO "addons" ("id", "name", "category", "price", "description", "photo", "is_active", "sort_order", "created_at", "updated_at") VALUES
+  (5, 'Hot Americano', 'Hot', 14000.00, 'Classic hot espresso diluted with hot water for a clean, bold coffee notes.', 'images/barbershop/hot-americano.jpg', TRUE, 1, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (6, 'Hot Long Black', 'Hot', 14000.00, 'Double shot espresso extracted over hot water, preserving full rich crema.', 'images/barbershop/hot-long-black.jpg', TRUE, 2, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (7, 'Hot Cappuccino', 'Hot', 15000.00, 'Rich espresso with velvety steamed milk and smooth micro-foam.', 'images/barbershop/hot-cappuccino.jpg', TRUE, 3, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (8, 'Hot Dark Chocolate', 'Hot', 17000.00, 'Recommended rich Dutch dark cocoa brewed warm and comforting.', 'images/barbershop/hot-chocolate.jpg', TRUE, 4, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (9, 'Ice Americano', 'Ice', 15000.00, 'Crisp espresso poured over chilled mineral water and ice rocks.', 'images/barbershop/ice-americano.jpg', TRUE, 5, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (10, 'Ice Long Black', 'Ice', 15000.00, 'Chilled double shot espresso with deep roasted notes and lively aroma.', 'images/barbershop/ice-longblack.jpg', TRUE, 6, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (11, 'Ice Cappuccino', 'Ice', 16000.00, 'Balanced espresso and fresh creamy milk served over ice.', 'images/barbershop/ice-cappuccino.jpg', TRUE, 7, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (12, 'Ice Dark Chocolate', 'Ice', 18000.00, 'Decadent dark chocolate blend served icy cold and refreshing.', 'images/barbershop/ice-chocolate.jpg', TRUE, 8, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (13, 'Vanilla Milkshake', 'Ice', 18000.00, 'Creamy Madagascar vanilla blend whipped cold and smooth.', 'images/barbershop/vanilla-milkshake.jpg', TRUE, 9, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (14, 'Brown Sugar Coffee', 'Ice', 19000.00, 'Signature Dutchman iced coffee with authentic aromatic brown sugar.', 'images/barbershop/brown-sugar-coffee.jpg', TRUE, 10, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (15, 'Airish Coffee', 'Ice', 19000.00, 'Specialty Irish-style cream iced coffee blend with deep herbal notes.', 'images/barbershop/airish-coffee.jpg', TRUE, 11, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
+  (16, 'Sweet Mango', 'Ice', 19000.00, 'Luscious tropical mango delight served icy cold and uplifting.', 'images/barbershop/sweet-mango.jpg', TRUE, 12, '2026-09-24 02:27:43', '2026-09-24 02:27:43');
+
+-- -----------------------------------------------------
+-- Table: promotions
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS "promotions" CASCADE;
+CREATE TABLE "promotions" (
+  "id" BIGSERIAL,
+  "code" varchar(255) NOT NULL,
+  "discount_percent" INTEGER DEFAULT 0,
+  "discount_amount" decimal(10,2) DEFAULT 0.00,
+  "valid_from" DATE,
+  "valid_until" DATE,
+  "is_active" BOOLEAN DEFAULT TRUE,
+  "created_at" TIMESTAMP WITHOUT TIME ZONE,
+  "updated_at" TIMESTAMP WITHOUT TIME ZONE,
+  PRIMARY KEY ("id")
+);
+
+INSERT INTO "promotions" ("id", "code", "discount_percent", "discount_amount", "valid_from", "valid_until", "is_active", "created_at", "updated_at") VALUES
+  (1, 'DUTCH10', 10, '0.00', '2026-09-23', '2026-12-24', TRUE, '2026-09-23 06:23:31', '2026-09-24 03:09:57'),
+  (2, 'GENTLEMAN20', '0', 20000.00, '2026-09-23', '2026-12-24', TRUE, '2026-09-23 06:23:31', '2026-09-24 03:09:57');
+
+-- -----------------------------------------------------
 -- Table: bookings
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS "bookings" CASCADE;
@@ -268,38 +319,6 @@ INSERT INTO "booking_items" ("id", "booking_id", "service_id", "price", "duratio
   (15, 10, 1, 95000.00, 45, '2026-09-24 08:30:24', '2026-09-24 08:30:24');
 
 -- -----------------------------------------------------
--- Table: addons
--- -----------------------------------------------------
-DROP TABLE IF EXISTS "addons" CASCADE;
-CREATE TABLE "addons" (
-  "id" BIGSERIAL,
-  "name" varchar(255) NOT NULL,
-  "category" varchar(50) DEFAULT 'drink',
-  "price" decimal(10,2) DEFAULT 0.00,
-  "description" TEXT,
-  "photo" varchar(255),
-  "is_active" BOOLEAN DEFAULT TRUE,
-  "sort_order" INTEGER DEFAULT 0,
-  "created_at" TIMESTAMP WITHOUT TIME ZONE,
-  "updated_at" TIMESTAMP WITHOUT TIME ZONE,
-  PRIMARY KEY ("id")
-);
-
-INSERT INTO "addons" ("id", "name", "category", "price", "description", "photo", "is_active", "sort_order", "created_at", "updated_at") VALUES
-  (5, 'Hot Americano', 'Hot', 14000.00, 'Classic hot espresso diluted with hot water for a clean, bold coffee notes.', 'images/barbershop/hot-americano.jpg', TRUE, 1, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (6, 'Hot Long Black', 'Hot', 14000.00, 'Double shot espresso extracted over hot water, preserving full rich crema.', 'images/barbershop/hot-long-black.jpg', TRUE, 2, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (7, 'Hot Cappuccino', 'Hot', 15000.00, 'Rich espresso with velvety steamed milk and smooth micro-foam.', 'images/barbershop/hot-cappuccino.jpg', TRUE, 3, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (8, 'Hot Dark Chocolate', 'Hot', 17000.00, 'Recommended rich Dutch dark cocoa brewed warm and comforting.', 'images/barbershop/hot-chocolate.jpg', TRUE, 4, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (9, 'Ice Americano', 'Ice', 15000.00, 'Crisp espresso poured over chilled mineral water and ice rocks.', 'images/barbershop/ice-americano.jpg', TRUE, 5, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (10, 'Ice Long Black', 'Ice', 15000.00, 'Chilled double shot espresso with deep roasted notes and lively aroma.', 'images/barbershop/ice-longblack.jpg', TRUE, 6, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (11, 'Ice Cappuccino', 'Ice', 16000.00, 'Balanced espresso and fresh creamy milk served over ice.', 'images/barbershop/ice-cappuccino.jpg', TRUE, 7, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (12, 'Ice Dark Chocolate', 'Ice', 18000.00, 'Decadent dark chocolate blend served icy cold and refreshing.', 'images/barbershop/ice-chocolate.jpg', TRUE, 8, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (13, 'Vanilla Milkshake', 'Ice', 18000.00, 'Creamy Madagascar vanilla blend whipped cold and smooth.', 'images/barbershop/vanilla-milkshake.jpg', TRUE, 9, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (14, 'Brown Sugar Coffee', 'Ice', 19000.00, 'Signature Dutchman iced coffee with authentic aromatic brown sugar.', 'images/barbershop/brown-sugar-coffee.jpg', TRUE, 10, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (15, 'Airish Coffee', 'Ice', 19000.00, 'Specialty Irish-style cream iced coffee blend with deep herbal notes.', 'images/barbershop/airish-coffee.jpg', TRUE, 11, '2026-09-24 02:27:43', '2026-09-24 02:27:43'),
-  (16, 'Sweet Mango', 'Ice', 19000.00, 'Luscious tropical mango delight served icy cold and uplifting.', 'images/barbershop/sweet-mango.jpg', TRUE, 12, '2026-09-24 02:27:43', '2026-09-24 02:27:43');
-
--- -----------------------------------------------------
 -- Table: booking_addons
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS "booking_addons" CASCADE;
@@ -320,27 +339,6 @@ INSERT INTO "booking_addons" ("id", "booking_id", "addon_id", "name", "price", "
   (2, 8, 5, 'Hot Americano', 14000.00, 1, '2026-09-24 07:21:17', '2026-09-24 07:21:17'),
   (3, 9, 6, 'Hot Long Black', 14000.00, 1, '2026-09-24 08:30:06', '2026-09-24 08:30:06'),
   (4, 10, 6, 'Hot Long Black', 14000.00, 1, '2026-09-24 08:30:24', '2026-09-24 08:30:24');
-
--- -----------------------------------------------------
--- Table: promotions
--- -----------------------------------------------------
-DROP TABLE IF EXISTS "promotions" CASCADE;
-CREATE TABLE "promotions" (
-  "id" BIGSERIAL,
-  "code" varchar(255) NOT NULL,
-  "discount_percent" INTEGER DEFAULT 0,
-  "discount_amount" decimal(10,2) DEFAULT 0.00,
-  "valid_from" DATE,
-  "valid_until" DATE,
-  "is_active" BOOLEAN DEFAULT TRUE,
-  "created_at" TIMESTAMP WITHOUT TIME ZONE,
-  "updated_at" TIMESTAMP WITHOUT TIME ZONE,
-  PRIMARY KEY ("id")
-);
-
-INSERT INTO "promotions" ("id", "code", "discount_percent", "discount_amount", "valid_from", "valid_until", "is_active", "created_at", "updated_at") VALUES
-  (1, 'DUTCH10', 10, '0.00', '2026-09-23', '2026-12-24', TRUE, '2026-09-23 06:23:31', '2026-09-24 03:09:57'),
-  (2, 'GENTLEMAN20', '0', 20000.00, '2026-09-23', '2026-12-24', TRUE, '2026-09-23 06:23:31', '2026-09-24 03:09:57');
 
 -- -----------------------------------------------------
 -- Table: reviews
@@ -412,18 +410,16 @@ INSERT INTO "migrations" ("id", "migration", "batch") VALUES
 -- -----------------------------------------------------
 -- Reset serial sequences for auto-increment columns
 -- -----------------------------------------------------
-SELECT setval(pg_get_serial_sequence('"users"', 'id'), coalesce(max(id),0) + 1, false) FROM "users";
-SELECT setval(pg_get_serial_sequence('"jobs"', 'id'), coalesce(max(id),0) + 1, false) FROM "jobs";
-SELECT setval(pg_get_serial_sequence('"failed_jobs"', 'id'), coalesce(max(id),0) + 1, false) FROM "failed_jobs";
-SELECT setval(pg_get_serial_sequence('"services"', 'id'), coalesce(max(id),0) + 1, false) FROM "services";
-SELECT setval(pg_get_serial_sequence('"barbers"', 'id'), coalesce(max(id),0) + 1, false) FROM "barbers";
-SELECT setval(pg_get_serial_sequence('"bookings"', 'id'), coalesce(max(id),0) + 1, false) FROM "bookings";
-SELECT setval(pg_get_serial_sequence('"booking_items"', 'id'), coalesce(max(id),0) + 1, false) FROM "booking_items";
-SELECT setval(pg_get_serial_sequence('"addons"', 'id'), coalesce(max(id),0) + 1, false) FROM "addons";
-SELECT setval(pg_get_serial_sequence('"booking_addons"', 'id'), coalesce(max(id),0) + 1, false) FROM "booking_addons";
-SELECT setval(pg_get_serial_sequence('"promotions"', 'id'), coalesce(max(id),0) + 1, false) FROM "promotions";
-SELECT setval(pg_get_serial_sequence('"reviews"', 'id'), coalesce(max(id),0) + 1, false) FROM "reviews";
-SELECT setval(pg_get_serial_sequence('"payments"', 'id'), coalesce(max(id),0) + 1, false) FROM "payments";
-SELECT setval(pg_get_serial_sequence('"migrations"', 'id'), coalesce(max(id),0) + 1, false) FROM "migrations";
-
-SET session_replication_role = 'origin';
+SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce((SELECT max(id) FROM "users"), 1), true);
+SELECT setval(pg_get_serial_sequence('jobs', 'id'), coalesce((SELECT max(id) FROM "jobs"), 1), true);
+SELECT setval(pg_get_serial_sequence('failed_jobs', 'id'), coalesce((SELECT max(id) FROM "failed_jobs"), 1), true);
+SELECT setval(pg_get_serial_sequence('services', 'id'), coalesce((SELECT max(id) FROM "services"), 1), true);
+SELECT setval(pg_get_serial_sequence('barbers', 'id'), coalesce((SELECT max(id) FROM "barbers"), 1), true);
+SELECT setval(pg_get_serial_sequence('addons', 'id'), coalesce((SELECT max(id) FROM "addons"), 1), true);
+SELECT setval(pg_get_serial_sequence('promotions', 'id'), coalesce((SELECT max(id) FROM "promotions"), 1), true);
+SELECT setval(pg_get_serial_sequence('bookings', 'id'), coalesce((SELECT max(id) FROM "bookings"), 1), true);
+SELECT setval(pg_get_serial_sequence('booking_items', 'id'), coalesce((SELECT max(id) FROM "booking_items"), 1), true);
+SELECT setval(pg_get_serial_sequence('booking_addons', 'id'), coalesce((SELECT max(id) FROM "booking_addons"), 1), true);
+SELECT setval(pg_get_serial_sequence('reviews', 'id'), coalesce((SELECT max(id) FROM "reviews"), 1), true);
+SELECT setval(pg_get_serial_sequence('payments', 'id'), coalesce((SELECT max(id) FROM "payments"), 1), true);
+SELECT setval(pg_get_serial_sequence('migrations', 'id'), coalesce((SELECT max(id) FROM "migrations"), 1), true);
