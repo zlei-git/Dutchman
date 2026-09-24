@@ -12,7 +12,23 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('user.profile', compact('user'));
+
+        $allBookings = $user->bookings()
+            ->with(['items.service', 'barber'])
+            ->latest('booking_date')
+            ->get();
+
+        $today = today()->format('Y-m-d');
+
+        $upcomingBookings = $allBookings->filter(function ($b) use ($today) {
+            return $b->booking_date->format('Y-m-d') >= $today && !in_array($b->status, ['completed', 'cancelled']);
+        });
+
+        $pastBookings = $allBookings->reject(function ($b) use ($upcomingBookings) {
+            return $upcomingBookings->contains('id', $b->id);
+        });
+
+        return view('user.profile', compact('user', 'allBookings', 'upcomingBookings', 'pastBookings'));
     }
 
     public function update(Request $request)

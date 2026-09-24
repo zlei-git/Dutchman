@@ -81,8 +81,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', fn() => redirect()->route('user.bookings.index'))->name('user.dashboard');
-    Route::get('/my-bookings', [UserBookingController::class, 'index'])->name('user.bookings.index');
+    Route::get('/dashboard', fn() => redirect()->route('user.profile'))->name('user.dashboard');
+    Route::get('/my-bookings', fn() => redirect()->route('user.profile'))->name('user.bookings.index');
     Route::post('/my-bookings/{id}/cancel', [UserBookingController::class, 'cancel'])->name('user.bookings.cancel');
 
     // Profile Settings

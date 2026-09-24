@@ -563,7 +563,7 @@
                 <a href="{{ route('map') }}" class="nav-link {{ request()->routeIs('map') ? 'active' : '' }}">Lokasi &amp; Peta</a>
 
                 @auth
-                    <a href="{{ route('user.bookings.index') }}" class="nav-link {{ request()->routeIs('user.bookings.*') ? 'active' : '' }}">Booking Saya</a>
+                    <a href="{{ route('user.profile') }}" class="nav-link {{ request()->routeIs('user.profile*') ? 'active' : '' }}">Profil Saya</a>
                     @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.dashboard') }}" class="nav-link" style="color: var(--coral);">Panel Admin</a>
                     @endif
@@ -605,8 +605,7 @@
         <a href="{{ route('map') }}" class="nav-link" style="font-size: 1.3rem; font-family: var(--font-display);">Lokasi &amp; Peta</a>
         <hr style="border: 0; border-top: 1.5px solid var(--border-subtle);">
         @auth
-            <a href="{{ route('user.bookings.index') }}" class="nav-link" style="font-size: 1.1rem;">Booking Saya</a>
-            <a href="{{ route('user.profile') }}" class="nav-link" style="font-size: 1.1rem;">Pengaturan Profil</a>
+            <a href="{{ route('user.profile') }}" class="nav-link" style="font-size: 1.1rem; font-weight: 600;">Profil &amp; Bookingan Saya</a>
             @if(auth()->user()->isAdmin())
                 <a href="{{ route('admin.dashboard') }}" class="nav-link" style="color: var(--coral); font-size: 1.1rem;">Dasbor Admin</a>
             @endif
