@@ -17,6 +17,10 @@
       "dest": "/public/images/$1"
     },
     {
+      "src": "/videos/(.*)",
+      "dest": "/public/videos/$1"
+    },
+    {
       "src": "/css/(.*)",
       "dest": "/public/css/$1"
     },

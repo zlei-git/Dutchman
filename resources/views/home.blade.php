@@ -9,14 +9,14 @@
      ========================================================================== -->
 <section style="position: relative; width: 100%; height: calc(100vh - 76px); min-height: 560px; background: #000000; overflow: hidden; display: flex; align-items: center; justify-content: center;">
     <!-- 3 Dutchman Videos Seamless Crossfade Loop -->
-    <div id="hero-video-container" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden;">
-        <video id="hero-vid-0" autoplay muted playsinline poster="{{ asset('images/barbershop/dutchman-official-maps.jpg') }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.55); opacity: 1; transition: opacity 1s ease-in-out; display: block;">
+    <div id="hero-video-container" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; background: #000000;">
+        <video id="hero-vid-0" autoplay muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 1; transition: opacity 0.8s ease-in-out; display: block;">
             <source src="{{ asset('videos/dutchman-1.mp4') }}" type="video/mp4">
         </video>
-        <video id="hero-vid-1" muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.55); opacity: 0; transition: opacity 1s ease-in-out; display: block;">
+        <video id="hero-vid-1" muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 0; transition: opacity 0.8s ease-in-out; display: block;">
             <source src="{{ asset('videos/dutchman-2.mp4') }}" type="video/mp4">
         </video>
-        <video id="hero-vid-2" muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.55); opacity: 0; transition: opacity 1s ease-in-out; display: block;">
+        <video id="hero-vid-2" muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 0; transition: opacity 0.8s ease-in-out; display: block;">
             <source src="{{ asset('videos/dutchman-3.mp4') }}" type="video/mp4">
         </video>
     </div>
