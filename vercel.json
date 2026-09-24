@@ -42,6 +42,7 @@
     "APP_DEBUG": "true",
     "APP_KEY": "base64:jDNJYv8p6Ed1NjNNT9P/mSaIjuFxwwdTC6n5fs32jiA=",
     "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+    "APP_MAINTENANCE_DRIVER": "file",
     "CACHE_STORE": "array",
     "SESSION_DRIVER": "cookie",
     "LOG_CHANNEL": "stderr"
