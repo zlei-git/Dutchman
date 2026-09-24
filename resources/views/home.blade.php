@@ -10,13 +10,13 @@
 <section style="position: relative; width: 100%; height: calc(100vh - 76px); min-height: 560px; background: #000000; overflow: hidden; display: flex; align-items: center; justify-content: center;">
     <!-- 3 Dutchman Videos Seamless Crossfade Loop -->
     <div id="hero-video-container" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; background: #000000;">
-        <video id="hero-vid-0" autoplay muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 1; transition: opacity 0.8s ease-in-out; display: block;">
+        <video id="hero-vid-0" autoplay muted playsinline preload="auto" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 1; transition: opacity 0.8s ease-in-out; display: block;">
             <source src="{{ asset('videos/dutchman-1.mp4') }}" type="video/mp4">
         </video>
-        <video id="hero-vid-1" muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 0; transition: opacity 0.8s ease-in-out; display: block;">
+        <video id="hero-vid-1" muted playsinline preload="auto" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 0; transition: opacity 0.8s ease-in-out; display: block;">
             <source src="{{ asset('videos/dutchman-2.mp4') }}" type="video/mp4">
         </video>
-        <video id="hero-vid-2" muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 0; transition: opacity 0.8s ease-in-out; display: block;">
+        <video id="hero-vid-2" muted playsinline preload="auto" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); opacity: 0; transition: opacity 0.8s ease-in-out; display: block;">
             <source src="{{ asset('videos/dutchman-3.mp4') }}" type="video/mp4">
         </video>
     </div>
@@ -713,6 +713,11 @@
         let currentIndex = 0;
         let isTransitioning = false;
 
+        // Start video 0 immediately
+        if (vids[0]) {
+            vids[0].play().catch(() => {});
+        }
+
         function transitionToNext() {
             if (isTransitioning) return;
             isTransitioning = true;
@@ -721,46 +726,36 @@
             const currentVid = vids[currentIndex];
             const nextVid = vids[nextIndex];
 
-            nextVid.currentTime = 0;
-            const playPromise = nextVid.play();
+            if (nextVid) {
+                nextVid.currentTime = 0;
+                const p = nextVid.play();
+                const doFade = () => {
+                    nextVid.style.opacity = '1';
+                    if (currentVid) currentVid.style.opacity = '0';
+                    currentIndex = nextIndex;
+                    setTimeout(() => { isTransitioning = false; }, 800);
+                };
 
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    nextVid.style.opacity = '1';
-                    currentVid.style.opacity = '0';
-                    currentIndex = nextIndex;
-                    setTimeout(() => {
-                        isTransitioning = false;
-                    }, 1000);
-                }).catch(() => {
-                    nextVid.style.opacity = '1';
-                    currentVid.style.opacity = '0';
-                    currentIndex = nextIndex;
-                    isTransitioning = false;
-                });
+                if (p !== undefined) {
+                    p.then(doFade).catch(doFade);
+                } else {
+                    doFade();
+                }
             } else {
-                nextVid.style.opacity = '1';
-                currentVid.style.opacity = '0';
-                currentIndex = nextIndex;
                 isTransitioning = false;
             }
         }
 
         vids.forEach((v) => {
             if (v) {
-                v.addEventListener('ended', function () {
-                    transitionToNext();
+                v.addEventListener('ended', transitionToNext);
+                v.addEventListener('timeupdate', function () {
+                    if (v.duration && v.currentTime >= v.duration - 0.4) {
+                        transitionToNext();
+                    }
                 });
             }
         });
-
-        // Safety interval in case video end event is missed or duration reached
-        setInterval(function () {
-            const active = vids[currentIndex];
-            if (active && active.duration && (active.currentTime >= active.duration - 0.4 || active.ended)) {
-                transitionToNext();
-            }
-        }, 800);
     });
 </script>
 @endpush
