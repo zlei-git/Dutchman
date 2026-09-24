@@ -578,17 +578,6 @@
                     <span>RESERVASI SEKARANG</span>
                 </a>
 
-                @auth
-                    <!-- Logout button in corner -->
-                    <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-outline btn-sm" title="Keluar / Logout" style="padding: 0.5rem 0.85rem; font-size: 0.82rem; border-color: rgba(255,255,255,0.2); color: #EF4444; display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer;">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-                            <span>Keluar</span>
-                        </button>
-                    </form>
-                @endauth
-
                 <!-- Mobile Hamburger Toggle -->
                 <button type="button" class="btn btn-outline btn-sm mobile-menu-btn" style="display: none; padding: 0.4rem 0.6rem;" id="menuToggle" aria-label="Menu Navigasi">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>

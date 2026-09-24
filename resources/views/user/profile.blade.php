@@ -99,7 +99,7 @@
                         <div>
                             <span style="color: var(--text-muted); display: block; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Layanan</span>
                             @foreach($booking->items as $item)
-                                <strong style="color: var(--text); display: block;">{{ $item->service_name }} ({{ $item->duration_minutes }} mnt)</strong>
+                                <strong style="color: var(--text); display: block;">{{ $item->service ? $item->service->name : ($item->service_name ?? 'Layanan Pangkas') }} ({{ $item->duration ?: ($item->service ? $item->service->duration_minutes : 45) }} mnt)</strong>
                             @endforeach
                         </div>
                         <div>
@@ -145,7 +145,7 @@
                                             #{{ $booking->booking_number }} &bull; {{ $booking->booking_date->translatedFormat('d M Y') }}
                                         </div>
                                         <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">
-                                            {{ $booking->items->pluck('service_name')->join(', ') }} bersama {{ $booking->barber ? $booking->barber->name : 'Staff Barber' }}
+                                            {{ $booking->items->map(fn($item) => $item->service ? $item->service->name : ($item->service_name ?? 'Layanan Pangkas'))->join(', ') }} bersama {{ $booking->barber ? $booking->barber->name : 'Staff Barber' }}
                                         </div>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 0.85rem;">
