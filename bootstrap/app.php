@@ -28,3 +28,9 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
     })->create();
+
+if ($storagePath = (getenv('APP_STORAGE') ?: ($_ENV['APP_STORAGE'] ?? null))) {
+    $app->useStoragePath($storagePath);
+}
+
+return $app;
