@@ -118,7 +118,7 @@ CREATE TABLE "failed_jobs" (
   "queue" varchar(255) NOT NULL,
   "payload" TEXT NOT NULL,
   "exception" TEXT NOT NULL,
-  "failed_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT 'current_timestamp()',
+  "failed_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY ("id")
 );
 
